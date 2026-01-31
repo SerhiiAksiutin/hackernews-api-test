@@ -85,3 +85,12 @@ def test_comment_found(base_url, http_session, get_top_comment_id):
     assert data.get("id") == get_top_comment_id
     assert data.get("type") == "comment"
 
+
+def test_missing_item_id(base_url, http_session):
+    """Test that missing item id returns 401."""
+    missing_id = ""
+    url = f"{base_url}/item/{missing_id}.json"
+    response = http_session.get(url)
+    assert response.status_code == 401
+    assert response.json().get("error") == "Permission denied"
+
